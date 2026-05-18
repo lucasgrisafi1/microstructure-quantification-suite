@@ -1,0 +1,23 @@
+# MATLAB
+*.asv
+*.m~
+*.mat
+*.mexa64
+*.mexw64
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+
+# Data (large images)
+*.tif
+*.tiff
+*.png
+*.jpg
+
+# Output (save locally, don't commit large figures)
+output/*.png
+output/*.fig
