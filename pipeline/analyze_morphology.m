@@ -1,4 +1,37 @@
 function state = analyze_morphology(state)
+    % ANALYZE_MORPHOLOGY  Per-grain measurements + ensemble statistics.
+    %
+    % SYNTAX
+    %   state = analyze_morphology(state)
+    %
+    % INPUTS
+    %   state - AnalysisState with segmentation_mask populated AND
+    %           is_calibrated == true (calibration_factor used for unit
+    %           conversion).
+    %
+    % OUTPUTS
+    %   state.grain_properties (table) one row per connected component:
+    %     grain_id, area_pixels, area_um2, eccentricity, orientation,
+    %     equivalent_diameter, major_axis_um, minor_axis_um.
+    %   state.morphology_stats (struct) ensemble metrics:
+    %     grain_count, D10, D50, D90 (equivalent-diameter percentiles),
+    %     mean/std eccentricity, mean/std orientation,
+    %     mean_area_um2, total_area_um2.
+    %   processing_log appended.
+    %
+    % EXAMPLE
+    %   state = analyze_morphology(state);
+    %   disp(state.morphology_stats)
+    %   head(state.grain_properties, 5)
+    %
+    % NOTES
+    %   - Underlying region properties come from regionprops:
+    %     Area, Eccentricity, Orientation, MajorAxisLength, MinorAxisLength.
+    %   - Equivalent diameter = 2 * sqrt(area_um2 / pi).
+    %   - Errors if segmentation_mask is empty or calibration is missing.
+    %
+    % See also: segment_grains, generate_publication_figure.
+
     if isempty(state.segmentation_mask)
         error('segmentation_mask is empty. Segment grains first.');
     end

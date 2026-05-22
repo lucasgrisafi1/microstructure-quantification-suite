@@ -1,7 +1,23 @@
 function state = load_state(filename)
-    % load_state: Load AnalysisState from .mat file
-    % Input: filename (string)
-    % Output: state (AnalysisState)
+    % LOAD_STATE  Deserialize an AnalysisState from a .mat file.
+    %
+    % SYNTAX
+    %   state = load_state(filename)
+    %
+    % INPUTS
+    %   filename (char/string) - path to a .mat file produced by save_state.
+    %                            '.mat' appended if missing.
+    %
+    % OUTPUTS
+    %   state - the AnalysisState that was serialized. figure_handles and
+    %           figure_image will be empty (stripped at save time);
+    %           regenerate with generate_publication_figure if needed.
+    %
+    % EXAMPLE
+    %   state = load_state('output/sample_state.mat');
+    %   disp(state.morphology_stats)
+    %
+    % See also: save_state, generate_publication_figure.
 
     if ~isfile(filename)
         error('File not found: %s', filename);

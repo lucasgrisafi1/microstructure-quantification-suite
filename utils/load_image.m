@@ -1,7 +1,27 @@
 function state = load_image(state, filepath)
-    % load_image: Read image from file and populate state
-    % Input: state (AnalysisState), filepath (string)
-    % Output: state with image_raw and image_filename populated
+    % LOAD_IMAGE  Read a micrograph from disk into the analysis state.
+    %
+    % SYNTAX
+    %   state = load_image(state, filepath)
+    %
+    % INPUTS
+    %   state    (AnalysisState) - container to populate.
+    %   filepath (char/string)   - absolute or relative path to the image.
+    %                              Supported: .tif, .png, .jpg, .bmp, .gif
+    %                              (anything imread accepts).
+    %
+    % OUTPUTS
+    %   state - image_raw (uint8 or uint16 grayscale), image_filename
+    %           populated; processing_log appended.
+    %
+    % EXAMPLE
+    %   state = load_image(state, 'tests/sample_doitpoms.jpg');
+    %
+    % NOTES
+    %   - RGB inputs are automatically converted to grayscale (rgb2gray).
+    %   - Errors if the file does not exist.
+    %
+    % See also: calibrate_scale.
 
     if ~isfile(filepath)
         error('File not found: %s', filepath);

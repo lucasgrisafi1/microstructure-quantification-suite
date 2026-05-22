@@ -1,7 +1,28 @@
 function state = calibrate_scale(state, ref_scale_px, ref_scale_um)
-    % calibrate_scale: Compute pixel-to-micron conversion factor
-    % Input: state (AnalysisState), ref_scale_px (pixels), ref_scale_um (microns)
-    % Output: state with calibration_factor set
+    % CALIBRATE_SCALE  Set pixel-to-micron conversion from scale-bar measurement.
+    %
+    % SYNTAX
+    %   state = calibrate_scale(state, ref_scale_px, ref_scale_um)
+    %
+    % INPUTS
+    %   state           (AnalysisState) - container holding image data
+    %   ref_scale_px    (numeric > 0)   - measured scale-bar length in pixels
+    %   ref_scale_um    (numeric > 0)   - labelled scale-bar length in microns
+    %
+    % OUTPUTS
+    %   state - calibration_factor (um/px), reference_scale_px,
+    %           reference_scale_um, is_calibrated populated;
+    %           processing_log appended.
+    %
+    % EXAMPLE
+    %   % Scale bar measured at 256 pixels for a 25 um label
+    %   state = calibrate_scale(state, 256, 25);   % -> 0.0977 um/pixel
+    %
+    % NOTES
+    %   - Inputs are validated as numeric and positive; errors otherwise.
+    %   - All downstream micron measurements use this factor.
+    %
+    % See also: load_image, preprocess_image.
 
     if ~isnumeric(ref_scale_px) || ~isnumeric(ref_scale_um)
         error('Scale inputs must be numeric');

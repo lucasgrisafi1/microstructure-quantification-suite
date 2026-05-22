@@ -1,7 +1,31 @@
 function state = preprocess_image(state, varargin)
-    % preprocess_image: Enhance contrast for grain boundary detection
-    % Input: state (AnalysisState with image_processed), optional method ('adaptive_histogram_eq' or 'contrast_stretch')
-    % Output: state with image_processed populated
+    % PREPROCESS_IMAGE  Enhance contrast prior to segmentation.
+    %
+    % SYNTAX
+    %   state = preprocess_image(state)
+    %   state = preprocess_image(state, method)
+    %
+    % INPUTS
+    %   state   (AnalysisState) - must have image_raw populated.
+    %   method  (char, optional) - currently informational; the method is
+    %           auto-selected from image statistics (see Notes).
+    %
+    % OUTPUTS
+    %   state - image_processed (uint8), preprocessing_method,
+    %           preprocessing_params populated; processing_log appended.
+    %
+    % EXAMPLE
+    %   state = preprocess_image(state);
+    %   imshow(state.image_processed);
+    %
+    % NOTES
+    %   Branch heuristic: coefficient-of-variation squared on image_raw.
+    %     high variance (> 0.1)  -> SEM-like      -> CLAHE (adapthisteq)
+    %     low  variance (<= 0.1) -> optical-like  -> 2%/98% contrast stretch
+    %                                                + light Gaussian blur
+    %   RGB inputs are converted to grayscale via rgb2gray.
+    %
+    % See also: calibrate_scale, segment_grains.
 
     if isempty(state.image_raw)
         error('image_raw is empty. Load image first.');
