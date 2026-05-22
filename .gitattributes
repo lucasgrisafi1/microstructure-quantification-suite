@@ -1,0 +1,16 @@
+* text=auto eol=lf
+*.m       text eol=lf
+*.md      text eol=lf
+*.txt     text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+
+# Treat these as binary so git doesn't mangle them
+*.mat     binary
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.tif     binary
+*.tiff    binary
+*.gif     binary
+*.pdf     binary
