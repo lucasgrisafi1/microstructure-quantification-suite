@@ -115,9 +115,3 @@ Network access to the real DoITPoMS dataset is not available in the sandbox, so 
 All distance measurements are reported in microns. Set the calibration with `calibrate_scale(state, pixels, microns)` using a measurement taken from the scale bar (e.g., ImageJ line tool). The resulting `calibration_factor` is microns/pixel; areas are converted as `pixels^2 * calibration_factor^2`.
 
 A typical default for high-resolution SEM is `0.01 µm/pixel` (10 nm/pixel at a 1.28 µm field of view, 256×256 pixels).
-
-## Roadmap
-
-- Day 5 (in progress): publication figure + this README ✓
-- Day 6: example scripts, optional optical-microscopy walkthrough, final validation
-- Future: crystallographic orientation mapping, grain-boundary characterization, multi-image batching
