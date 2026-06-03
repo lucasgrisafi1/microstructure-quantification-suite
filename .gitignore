@@ -17,7 +17,15 @@ Thumbs.db
 *.tiff
 *.png
 *.jpg
+*.gif
+*.bmp
 
 # Output (save locally, don't commit large figures)
 output/*.png
 output/*.fig
+output/*.csv
+
+# Internal working notes / generated status reports (not part of the codebase)
+EXECUTION_SUMMARY.txt
+PROJECT_STATUS.txt
+TASK_COMPLETION_REPORT.txt

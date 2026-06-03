@@ -65,6 +65,25 @@ disp(state.morphology_stats)
 head(state.grain_properties)
 ```
 
+## Interactive GUI
+
+A single-window App Designer style interface drives the whole pipeline without writing any code. From the project root:
+
+```matlab
+addpath(genpath('.'));
+MicrostructureApp          % launch the GUI
+```
+
+Workflow inside the app:
+
+1. **Load Image...** — pick a micrograph (`.png/.jpg/.tif/.gif/.bmp`).
+2. Set the **scale bar** calibration: pixels measured across the bar and the microns it represents.
+3. Adjust **Crop fraction** (keeps the top fraction of rows, trimming the scale-bar strip) and **Threshold** (`0` = automatic Otsu).
+4. **Run Analysis** — runs calibrate -> preprocess -> segment -> analyze -> figure. The 4-panel publication figure renders in the right pane and the metrics (grain count, D10/D50/D90, eccentricity, orientation) appear in the results box.
+5. **Save Outputs** — writes the figure (`.png`), the per-grain table (`.csv`), and the serialized state (`.mat`) to `output/`.
+
+`MicrostructureApp.m` is a self-contained `matlab.apps.AppBase` class (plain text, version-controlled) and puts the project folders on the path automatically on startup. `app1.mlapp` is the equivalent App Designer file and behaves the same way.
+
 ## Pipeline architecture
 
 `AnalysisState` is a pure data container. Each pipeline function takes a state and returns a state — no globals, no hidden side effects. Properties are populated in lifecycle order:
