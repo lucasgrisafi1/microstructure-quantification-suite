@@ -1,17 +1,24 @@
-cd 'C:\Users\lucas\OneDrive\Documents\Claude\Projects\Summer_2026 Lock In\project1_microstructure'
-addpath(genpath(pwd));
+% run_desktop_image.m
+% Run the full pipeline on an image sitting on your Desktop.
+% Replaces the old scratch scripts (untitled3.m / MicrosStructueAnalyze.m),
+% which duplicated this workflow with hardcoded personal paths.
+%
+% Usage: edit the config block, then run from project1_microstructure/.
+
+addpath(genpath(fileparts(fileparts(mfilename('fullpath')))));
 
 % ===== EDIT PER IMAGE =====
-filename      = '155.gif';            % file on your Desktop
-scale_px      = 260;                  % scale bar length in pixels
-scale_um      = 300;                    % scale bar length in micrometers
-crop_fraction = 0.88;                   % keep top X of the image; 1.0 = no crop
+filename      = 'my_micrograph.png';   % file on your Desktop
+scale_px      = 190.5;                 % scale bar length in pixels
+scale_um      = 100;                   % scale bar length in micrometers
+crop_fraction = 0.88;                  % keep top X of the image; 1.0 = no crop
 % ==========================
 
-% Try both common Desktop locations
+% Try both common Desktop locations (portable — no hardcoded user paths)
 desktops = { ...
     fullfile(getenv('USERPROFILE'), 'Desktop'), ...
-    fullfile(getenv('USERPROFILE'), 'OneDrive', 'Desktop') };
+    fullfile(getenv('USERPROFILE'), 'OneDrive', 'Desktop'), ...
+    fullfile(getenv('HOME'), 'Desktop')};
 image_path = '';
 for k = 1:numel(desktops)
     candidate = fullfile(desktops{k}, filename);
@@ -33,7 +40,7 @@ end
 
 state = calibrate_scale(state, scale_px, scale_um);
 state = preprocess_image(state);
-state = segment_grains(state);     % add 2nd arg e.g. 0.7 to override threshold
+state = segment_grains(state);     % options: threshold, 'Polarity', 'Watershed'
 state = analyze_morphology(state);
 state = generate_publication_figure(state);
 
@@ -45,4 +52,4 @@ if ~isfolder('output'); mkdir('output'); end
 imwrite(state.figure_image, fullfile('output', [name '_figure.png']));
 writetable(state.grain_properties, fullfile('output', [name '_grains.csv']));
 save_state(state, fullfile('output', [name '_state.mat']));
-fprintf('Done. Outputs: output/%s_figure.png, _grains.csv, _state.mat\n', name);
+fprintf('Done. Outputs in output/%s_*.{png,csv,mat}\n', name);

@@ -112,5 +112,5 @@ function state = generate_publication_figure(state)
     % ---- Log ----
     state.processing_log{end+1} = sprintf( ...
         '[%s] Generated 4-panel publication figure (n=%d grains)', ...
-        datestr(now, 'HH:MM:SS'), stats.grain_count);
+        datetime('now', 'Format', 'HH:mm:ss'), stats.grain_count);
 end

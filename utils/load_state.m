@@ -19,12 +19,14 @@ function state = load_state(filename)
     %
     % See also: save_state, generate_publication_figure.
 
-    if ~isfile(filename)
-        error('File not found: %s', filename);
-    end
-
+    % Append extension BEFORE the existence check, otherwise a filename
+    % passed without '.mat' always errors even when the file exists.
     if ~endsWith(filename, '.mat')
         filename = [filename, '.mat'];
+    end
+
+    if ~isfile(filename)
+        error('File not found: %s', filename);
     end
 
     loaded = load(filename);
